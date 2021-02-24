@@ -1,5 +1,5 @@
-Web Lib
-=======
+Web Lib v1.0.0
+==============
 
 Simple Go stdlib http.Client using defaults based on [Don’t use Go’s default HTTP client (in production) | by Nathan Smith | Medium][], and [How to Use the HTTP Client in GO To Enhance Performance · LoginRadius Engineering][]. You can also change the defaults.
 
