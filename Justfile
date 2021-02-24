@@ -3,6 +3,7 @@ PROJECT_NAME := 'Web Lib'
 DISTRO_NAME := 'web'
 VERSION_FILE := 'web.go'
 
+alias cover := test-coverage
 alias ver := version
 
 @_default:
@@ -11,11 +12,24 @@ alias ver := version
 	just --list
 
 
-# Test Helper
-@test +args='':
-	just _term-label "{{PROJECT_NAME}}"
+# Test Suite
+test +args='':
+	@just _term-label "{{PROJECT_NAME}}"
+	@just _term-wipe
+	CGO_ENABLED=0 go test {{args}}
+
+# Test Coverage
+test-coverage +args='':
+	#!/bin/sh
 	just _term-wipe
-	go test {{args}}
+	COVERFLAGS=''
+	t=$(mktemp -t cover)
+	echo "Go Test"
+	CGO_ENABLED=0 go test ${COVERFLAGS} -coverprofile="${t}" {{args}}
+	echo
+	echo "Go Test Coverage"
+	CGO_ENABLED=0 go tool cover -func="${t}"
+	unlink "${t}"
 
 
 # Helper recipe to change the terminal label
